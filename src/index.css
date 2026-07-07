@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#0A0A0D] antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #9b9ba3;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 500;
+    color: #ededef;
+  }
+}
+
+@layer utilities {
+  .font-inter {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .font-space {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+  .text-heading {
+    color: #ededef;
+  }
+  .text-body {
+    color: #9b9ba3;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent;
+  }
+  
+  .glassmorphism {
+    @apply backdrop-blur-xl bg-[#0A0A0D]/80;
+  }
+  
+  .icon-accent {
+    color: #d3c1f1;
+  }
+
+  .icon-accent-bg {
+    background: rgba(211, 193, 241, 0.12);
+  }
+
+  .wave-bg {
+    position: relative;
+    overflow: hidden;
+  }
+  .wave-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 120% 60% at 50% 100%, rgba(200,180,240,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 50% at 30% 80%, rgba(180,160,230,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at 70% 90%, rgba(200,170,240,0.05) 0%, transparent 60%);
+    animation: waveShift 12s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes waveShift {
+    0% { opacity: 0.7; transform: translateY(0px) scale(1); }
+    50% { opacity: 1; transform: translateY(-8px) scale(1.02); }
+    100% { opacity: 0.8; transform: translateY(4px) scale(0.99); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+}
