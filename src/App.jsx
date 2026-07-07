@@ -1,5 +1,5 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import DemoModal from './components/DemoModal';
@@ -7,6 +7,14 @@ import Home from './pages/Home';
 import Pricing from './pages/Pricing';
 import Security from './pages/Security';
 import Contact from './pages/Contact';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function App() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
@@ -16,6 +24,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <Navigation onBookDemo={openDemo} />
         <main className="flex-grow">
