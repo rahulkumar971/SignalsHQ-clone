@@ -47,12 +47,12 @@ const Navigation = ({ onBookDemo }) => {
       <div className="rounded-xl">
         <div className="flex justify-between items-center h-[58px] px-5">
           {/* Logo */}
-          <Link
-            to="/"
+          <button
+            onClick={() => { navigate('/'); window.scrollTo(0, 0); }}
             className="flex items-center flex-shrink-0"
           >
             <img src="/logo.png" alt="SignalsHQ" className="h-7" />
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-5">
