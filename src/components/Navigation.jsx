@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 
@@ -7,12 +7,25 @@ const Navigation = ({ onBookDemo }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const routeLinks = [
     { name: 'Security', href: '/security' },
@@ -51,12 +64,12 @@ const Navigation = ({ onBookDemo }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
               >
-                <a
-                  href={item.href}
+                <button
+                  onClick={() => scrollToSection(item.href.replace('/#', ''))}
                   className="text-[#9b9ba3] hover:text-white transition-colors flex items-center text-sm font-medium font-inter"
                 >
                   {item.name}
-                </a>
+                </button>
               </motion.div>
             ))}
 
@@ -154,14 +167,13 @@ const Navigation = ({ onBookDemo }) => {
         >
           <div className="px-5 py-4 space-y-3">
             {sectionLinks.map((item) => (
-              <a
+              <button
                 key={item.name}
-                href={item.href}
-                className="block text-[#9b9ba3] hover:text-white py-2 text-sm font-inter"
-                onClick={() => setIsOpen(false)}
+                className="block text-[#9b9ba3] hover:text-white py-2 text-sm font-inter text-left w-full"
+                onClick={() => { setIsOpen(false); scrollToSection(item.href.replace('/#', '')); }}
               >
                 {item.name}
-              </a>
+              </button>
             ))}
             {routeLinks.map((item) => (
               <Link
