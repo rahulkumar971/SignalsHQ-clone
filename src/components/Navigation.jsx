@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 
@@ -7,7 +7,6 @@ const Navigation = ({ onBookDemo }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -15,11 +14,14 @@ const Navigation = ({ onBookDemo }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
+  const routeLinks = [
+    { name: 'Security', href: '/security' },
+  ];
+
+  const sectionLinks = [
     { name: 'Features', href: '/#features' },
     { name: 'Pricing', href: '/#pricing' },
     { name: 'Use Case', href: '/#use-case' },
-    { name: 'Security', href: '/security' },
   ];
 
   const resourceItems = [
@@ -32,25 +34,39 @@ const Navigation = ({ onBookDemo }) => {
       <div className="rounded-xl">
         <div className="flex justify-between items-center h-[58px] px-5">
           {/* Logo */}
-          <motion.a
-            href="/"
+          <Link
+            to="/"
             className="flex items-center flex-shrink-0"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
           >
             <img src="/logo.png" alt="SignalsHQ" className="h-7" />
-          </motion.a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-5">
-            {navItems.map((item, index) => (
+            {sectionLinks.map((item, index) => (
               <motion.div
                 key={item.name}
                 className="flex items-center"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <a
+                  href={item.href}
+                  className="text-[#9b9ba3] hover:text-white transition-colors flex items-center text-sm font-medium font-inter"
+                >
+                  {item.name}
+                </a>
+              </motion.div>
+            ))}
+
+            {routeLinks.map((item, index) => (
+              <motion.div
+                key={item.name}
+                className="flex items-center"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: (sectionLinks.length + index) * 0.05 }}
               >
                 <Link
                   to={item.href}
@@ -137,7 +153,17 @@ const Navigation = ({ onBookDemo }) => {
           exit={{ opacity: 0, height: 0 }}
         >
           <div className="px-5 py-4 space-y-3">
-            {navItems.map((item) => (
+            {sectionLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="block text-[#9b9ba3] hover:text-white py-2 text-sm font-inter"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </a>
+            ))}
+            {routeLinks.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
